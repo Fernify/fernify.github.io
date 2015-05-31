@@ -1,0 +1,78 @@
+@import "config";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 62.5%;
+  font-family: 'Open sans', san-serif;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+h1{
+  font-size: 3em;
+  font-size: 3rem;
+}
+
+
+h2{
+  font-size: 2em;
+  font-size: 2rem;
+}
+
+
+h3{
+  font-size: 1.6em;
+  font-size: 1.6rem;
+}
+
+@media #{$tablet}{
+
+}
+
+@media #{$desktop}{
+
+}
+
+@media print{
+  * {
+    background: none !important;
+    color: #333 !important;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    color: #7c334f !important;
+  }
+
+  a {
+    color: #417090 !important;
+  }
+
+  #main_content > .header-level-1:first-child,
+  #main_content > .header-level-2:first-child,
+  #main_content > .header-level-3:first-child,
+  #main_content > .header-level-4:first-child,
+  #main_content > .header-level-5:first-child,
+  #main_content > .header-level-6:first-child {
+    margin-top: 10px !important;
+  }
+
+  #forkme_banner,
+  #downloads,
+  .left-tail,
+  .right-tail
+  {
+  display: none !important;
+
+  }
+
+  .ribbon-inner,.ribbon-outer {
+    border: 0 !important;
+  }
+
+}
