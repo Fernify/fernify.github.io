@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Who do I suck versus?</title>
+		<script type="text/javascript" src="jq213.js"></script>
+		<script type="text/javascript" src="lolajax.js"></script>
+		<link type="stylesheet" href="wdisv.css" />
+		<script type="text/javascript">
+			var champIDsDiedTo = [];
+			var summonerObj;
+			var listOfMatchIds = [];
+			var listOfMatches = [];
+
+			$(function(){
+				//add as killerChampId, victimChampId
+				$("#buttton").click(function(){
+					GetAllData();
+				});
+			});
+
+			function PrintAllData(){
+				var killers = [];
+				$.each(champIDsDiedTo, function(index, champDeath){
+					var exists = false;
+					for(var i = 0; i < killers.length; i++){
+						if(killers[i].id == champDeath.kID){
+							exists = true;
+							killers[i].vicIDs.push(champDeath.vID);
+						}
+					}
+					if(!exists){
+						var newItem = {};
+						newItem.id = champDeath.kID;
+						newItem.vicIDs = [champDeath.vID];
+
+
+						killers.push(newItem);
+					}
+				});
+				killers = killers.sort(function(a,b){
+					return (b.vicIDs.length > a.vicIDs.length) ? 1 : ((b.vicIDs.length < a.vicIDs.length) ? -1 : 0);
+				});
+				$.each(killers, function(index, killer){
+					GetChampionName(killer.id, function(name){
+						var victims = "<ul>";
+						for(var l = 0; l < killer.vicIDs.length; l++){
+							GetChampionName(killer.vicIDs[l], function(vname){
+								victims += "<li>" + vname + "</li>";
+							});
+						}
+						victims += "</ul>";
+						$("#matchIdDisplay").append("<li>" + name +  victims + "</li>");
+					});
+				});
+			}
+
+			function GetAllData(){
+				GetSummonerId($("#nameText").val(), function(summoner){
+					summonerObj = summoner;
+					GetSummonerMatches(summoner.id, function(matches){
+						listOfMatchIds = matches;
+						$.each(matches, function(index, matchId){
+							GetMatchData(matchId, function(match){
+								FormatMatchData(match);
+								listOfMatches.push(match);
+
+							});
+						});
+					});
+				});
+			}
+
+			function FormatMatchData(match){
+				var ppIDs = match.participantIdentities;
+				var ppChamps = match.participants;
+				var playerPPID = -1;  
+				for(var p = 0; p < 10; p++){
+					if(ppIDs[p].player.summonerId == summonerObj.id){
+						playerPPID = ppIDs[p].participantId;
+						break;
+					}
+				}
+				var playerChampID = ppChamps[playerPPID-1].championId;
+				var frames = match.timeline.frames;
+				for(var f = 0; f<frames.length; f++){
+					var currentFrame = frames[f];
+					if(currentFrame.events != undefined){
+						for(var e = 0; e<currentFrame.events.length; e++){
+							var currentEvent = currentFrame.events[e];
+							if(currentEvent.eventType == "CHAMPION_KILL"){
+								if(currentEvent.victimId == playerPPID){
+									champIDsDiedTo.push({ kID: ppChamps[currentEvent.killerId-1].championId, vID: playerChampID});
+								}	
+							}
+						}
+					}
+				}
+			}
+
+
+		</script>
+	</head>
+	<body>
+		<input type="text" id="nameText" />
+		<button id="buttton">Search</button>
+		<div id="dataDisplay">
+			<h1 id="summonerNameDisplay"></h1>
+			<h2 id="noOfMatchesDisplay"></h2>
+			<ul id="matchIdDisplay"></ul>
+		</div>
+	</body>
+</html>
