@@ -1,125 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Who do I suck versus?</title>
-    <script type="text/javascript" src="jq213.js"></script>
-    <link type="stylesheet" href="wdisv.css" />
-    <script type="text/javascript">
+	<head>
+		<title>Who do I suck versus?</title>
+		<script type="text/javascript" src="Scripts/jq213.js"></script>
+		<script type="text/javascript" src="Scripts/lolajax.js"></script>
+		<script type="text/javascript" src="Scripts/scripts.js"></script>
+		<link rel="stylesheet" href="Bootstrap/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="Bootstrap/bootstrap/css/bootstrap-theme.min.css">
+		<link type="stylesheet" href="Styles/wdisv.css" />
+		<script type="text/javascript">
+	
 
-    </script>
-  </head>
-  <body>
-    <script type="text/javascript">
-    $(function(){
-      //add as killerChampId, victimChampId
-      $("#buttton").click(function(){
-        GetAllChampsDiedTo(function(champs){
-          alert(champs.length);
-        });
-      });
-    });
-
-    function GetAllChampsDiedTo(callback){
-      var champIDsDiedTo = [];
-      var nameEntry = $("#nameText").val();
-        GetSummonerId(nameEntry, function(summ){
-          var summID = summ.id;
-          var summName = summ.name;
-          GetSummonerMatches(summID, function(matchIds){
-            $("#summonerNameDisplay").text(summName);
-            $("#noOfMatchesDisplay").text("So in your last " + matchIds.length + " games");
-            for(var i = 0; i < matchIds.length; i++){
-              GetMatchData(matchIds[i], function(match){
-                var ppIDs = match.participantIdentities;
-                var ppChamps = match.participants;
-                var playerPPID = -1;  
-                for(var p = 0; p < 10; p++){
-                  if(ppIDs[p].player.summonerId == summID){
-                    playerPPID = ppIDs[p].participantId;
-                    break;
-                  }
-                }
-                var playerChampID = ppChamps[playerPPID-1].championId;
-                var frames = match.timeline.frames;
-                for(var f = 0; f<frames.length; f++){
-                  var currentFrame = frames[f];
-                  if(currentFrame.events != undefined){
-                    for(var e = 0; e<currentFrame.events.length; e++){
-                      var currentEvent = currentFrame.events[e];
-                      if(currentEvent.eventType == "CHAMPION_KILL"){
-                        if(currentEvent.victimId == playerPPID){
-                          champIDsDiedTo.push({ kID: ppChamps[currentEvent.killerId-1].championId, vID: playerChampID});
-
-                        } 
-                      }
-                    }
-                  }
-                }
-                GetChampionName(playerChampID, function(name){
-                  $("#matchIdDisplay").append("<li>" + name + "</li>");
-                });
-                if(i == matchIds.length - 1){
-                  callback(champIDsDiedTo);
-                }
-              });
-            }
-          });
-        });
-    }
-
-    function GetSummonerId(name, callback){
-      var summID = "";
-      var ajaxUrl = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/" + name + "?api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1";
-      $.ajax({
-        url: ajaxUrl,
-        dataType: "jsonp",
-        success: function(result){
-          callback(result[name]);
-        }       
-      });
-    }
-
-    function GetSummonerMatches(summonerId, callback){
-      var matchIds = [];
-      $.ajax({
-        url: "https://euw.api.pvp.net/api/lol/euw/v2.2/matchlist/by-summoner/" + summonerId + "?api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
-        dataType: "jsonp",
-        success: function(result){
-          $.each(result.matches, function(key){
-            matchIds.push(this.matchId);
-          });
-          callback(matchIds);
-        }
-      });
-    }
-
-    function GetChampionName(championId, callback){
-      $.ajax({
-        url: "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion/" + championId + "?api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
-        dataType: "jsonp",
-        success: function(result){
-          callback(result.name);
-        }
-      });
-    }
-
-    function GetMatchData(matchId, callback){
-      $.ajax({
-        url: "https://euw.api.pvp.net/api/lol/euw/v2.2/match/"+ matchId + "?includeTimeline=true&api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
-        dataType: "jsonp",
-        success: function(result){
-          callback(result);
-        }
-      });
-    }
-
-    </script>
-    <input type="text" id="nameText" />
-    <button id="buttton">Search</button>
-    <div id="dataDisplay">
-      <h1 id="summonerNameDisplay"></h1>
-      <h2 id="noOfMatchesDisplay"></h2>
-      <ul id="matchIdDisplay"></ul>
-    </div>
-  </body>
+		</script>
+	</head>
+	<body>
+		<div id="mainBody">
+			<h1>Who do I suck versus?</h1>
+			<input type="text" id="nameText" value="fernify" />
+			<button onclick="GetAllData();" id="searchButton">Search</button>
+			<div id="dataDisplay">
+				<h2 id="worstEnemy"></h2>
+				<ul id="matchIdDisplay"></ul>
+			</div>	
+		</div>
+		
+	</body>
 </html>
