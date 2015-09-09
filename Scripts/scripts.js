@@ -6,8 +6,9 @@ var killers = [];
 var globalIndex = 0;
 
 function PrintAllData() {
-    GetChampionName(killers[0].id, function(name){
-        $("#worstEnemy").text(name);
+    GetChampion(killers[0].id, function(champ){
+        var name = champ.name;
+        $("#worstEnemy").text(name + ", " + champ.title);
         var imageName  = name.toLowerCase().replace(/\b[a-z]/g, function(letter) {
             return letter.toUpperCase();
         });
@@ -20,12 +21,12 @@ function PrintAllData() {
 function DisplayKillerChampions(index){
     if(index < killers.length){
         var killer = killers[index];
-        GetChampionName(killer.id, function(kName){
+        GetChampion(killer.id, function(kName){
             for(var l = 0; l < killer.vicIDs.length; l++){		
                 var killRecord = killer.vicIDs[l];			
-                var killText = "<li>" + kName + "<ul>";
-                GetChampionName(killRecord.vID, function(vName){
-                    var vString = "<li>" + " killed " + vName + " " + killRecord.count + " times</li>";
+                var killText = "<li>" + kName.name + "<ul>";
+                GetChampion(killRecord.vID, function(vName){
+                    var vString = "<li>" + " killed " + vName.name + " " + killRecord.count + " times</li>";
                     killText +=  vString;
                     if(l == killer.vicIDs.length){
                         $("#matchIdDisplay").append(killText+"</ul></li>");
