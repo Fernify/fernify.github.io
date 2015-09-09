@@ -10,78 +10,111 @@
 			var summonerObj;
 			var listOfMatchIds = [];
 			var listOfMatches = [];
-
-			$(function(){
-				//add as killerChampId, victimChampId
-				$("#buttton").click(function(){
-					GetAllData();
-				});
-			});
-
+			var killers = [];
+			var globalIndex = 0;
 			function PrintAllData(){
-				var killers = [];
-				$.each(champIDsDiedTo, function(index, champDeath){
-					var exists = false;
-					for(var i = 0; i < killers.length; i++){
-						if(killers[i].id == champDeath.kID){
-							exists = true;
-							killers[i].vicIDs.push(champDeath.vID);
-						}
-					}
-					if(!exists){
-						var newItem = {};
-						newItem.id = champDeath.kID;
-						newItem.vicIDs = [champDeath.vID];
 
-
-						killers.push(newItem);
-					}
-				});
 				killers = killers.sort(function(a,b){
-					return (b.vicIDs.length > a.vicIDs.length) ? 1 : ((b.vicIDs.length < a.vicIDs.length) ? -1 : 0);
+					var aTot = GetKillCount(a.vicIDs);
+					var bTot = GetKillCount(b.vicIDs);
+					return (bTot > aTot) ? 1 : ((bTot < aTot) ? -1 : 0);
 				});
-				$.each(killers, function(index, killer){
-					GetChampionName(killer.id, function(name){
-						var victims = "<ul>";
-						for(var l = 0; l < killer.vicIDs.length; l++){
-							GetChampionName(killer.vicIDs[l], function(vname){
-								victims += "<li>" + vname + "</li>";
+				GetChampionName(killers[0].id, function(name){
+					$("#worstEnemy").text(name);
+				});
+				GetChampionNameCall(0);
+				//$.each(killers, function(index, killer){
+				//	console.log(index + " " + killer.id);
+				//	GetChampionName(killer.id, function(kName){
+				//		for(var l = 0; l < killer.vicIDs.length; l++){		
+				//			var killRecord = killer.vicIDs[l];			
+				//			var killText = "<li>" + kName + "<ul>";
+				//			GetChampionName(killRecord.vID, function(vName){
+				//				var vString = "<li>" + " killed " + vName + " " + killRecord.count + " times</li>";
+				//				killText +=  vString;
+				//				if(l == killer.vicIDs.length){
+				//					$("#matchIdDisplay").append(killText+"</ul></li>");
+				//				}
+				//			});
+				//		}
+				//	});
+				//	
+				//});
+			}
+
+			function GetChampionNameCall(index){
+				if(index < killers.length){
+					var killer = killers[index];
+					GetChampionName(killer.id, function(kName){
+						for(var l = 0; l < killer.vicIDs.length; l++){		
+							var killRecord = killer.vicIDs[l];			
+							var killText = "<li>" + kName + "<ul>";
+							GetChampionName(killRecord.vID, function(vName){
+								var vString = "<li>" + " killed " + vName + " " + killRecord.count + " times</li>";
+								killText +=  vString;
+								if(l == killer.vicIDs.length){
+									$("#matchIdDisplay").append(killText+"</ul></li>");
+									var newIndex = index + 1;
+									GetChampionNameCall(newIndex);
+								}
 							});
 						}
-						victims += "</ul>";
-						$("#matchIdDisplay").append("<li>" + name +  victims + "</li>");
-					});
+					});					
+				}
+			}
+
+			function GetKillCount(vicObjs){
+				var total = 0;
+				$.each(vicObjs, function(index, vicObj){
+					total += vicObj.count;
 				});
+				return total;
 			}
 
 			function GetAllData(){
-				GetSummonerId($("#nameText").val(), function(summoner){
-					summonerObj = summoner;
-					GetSummonerMatches(summoner.id, function(matches){
-						listOfMatchIds = matches;
-						$.each(matches, function(index, matchId){
-							GetMatchData(matchId, function(match){
+						GetAllMatchData(function(matches){
+							$.each(matches, function(index, match){
 								FormatMatchData(match);
 								listOfMatches.push(match);
-
+								if(matches.length-1 == index){
+									console.log("End");
+									PrintAllData();
+								}
 							});
 						});
-					});
-				});
+
+
+				//GetSummonerId($("#nameText").val(), function(summoner){
+				//	summonerObj = summoner;
+				//	GetSummonerMatches(summoner.id, function(matches){
+				//		listOfMatchIds = matches;
+				//		var maxIndex = matches.length;
+				//		var index = 0;
+
+						//var myInterval = setInterval(function(){
+						//	if(index == maxIndex){
+						//		console.log("Data gotten");
+						//		clearInterval(myInterval);
+						//	}else{
+						//		console.log("Match " + (index +1));
+						//		GetMatchData(matches[index], function(match){
+						//		FormatMatchData(match);
+						//		listOfMatches.push(match);
+						//		index++;
+						//	});
+						//	}
+						//}, 2200);
+				//	});
+				//});
 			}
 
 			function FormatMatchData(match){
 				var ppIDs = match.participantIdentities;
 				var ppChamps = match.participants;
-				var playerPPID = -1;  
-				for(var p = 0; p < 10; p++){
-					if(ppIDs[p].player.summonerId == summonerObj.id){
-						playerPPID = ppIDs[p].participantId;
-						break;
-					}
-				}
+				var playerPPID = ($.grep(ppIDs, function(x){return (x.player.summonerId == 25575262);}))[0].participantId;  
 				var playerChampID = ppChamps[playerPPID-1].championId;
 				var frames = match.timeline.frames;
+				//var killerFrames = $.grep(frames, function)
 				for(var f = 0; f<frames.length; f++){
 					var currentFrame = frames[f];
 					if(currentFrame.events != undefined){
@@ -95,18 +128,41 @@
 						}
 					}
 				}
+				$.each(champIDsDiedTo, function(index, champDeath){
+					var exists = false;
+					for(var i = 0; i < killers.length; i++){
+						var thisKiller = killers[i];
+						if(thisKiller.id == champDeath.kID){
+							exists = true;
+							for(var v = 0; v < thisKiller.vicIDs.length; v++){
+								if(thisKiller.vicIDs[v].vID == champDeath.vID){
+									thisKiller.vicIDs[v].count = thisKiller.vicIDs[v].count + 1;
+								}
+							}
+						}
+					}
+					if(!exists){
+						var newItem = {};
+						newItem.id = champDeath.kID;
+						newItem.vicIDs = [{vID:champDeath.vID, count:1}];
+						killers.push(newItem);
+					}
+				});
 			}
 
 
 		</script>
 	</head>
 	<body>
-		<input type="text" id="nameText" value="fernify" />
-		<button id="buttton">Search</button>
-		<div id="dataDisplay">
-			<h1 id="summonerNameDisplay"></h1>
-			<h2 id="noOfMatchesDisplay"></h2>
-			<ul id="matchIdDisplay"></ul>
+		<div id="mainBody">
+			<h1>Who do I suck versus?</h1>
+			<input type="text" id="nameText" value="fernify" />
+			<button onclick="GetAllData();" id="searchButton">Search</button>
+			<div id="dataDisplay">
+				<h2 id="worstEnemy"></h2>
+				<ul id="matchIdDisplay"></ul>
+			</div>	
 		</div>
+		
 	</body>
 </html>
