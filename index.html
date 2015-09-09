@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="Scripts/scripts.js"></script>
 		<link rel="stylesheet" href="Bootstrap/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="Bootstrap/bootstrap/css/bootstrap-theme.min.css">
-		<link type="stylesheet" href="Styles/wdisv.css" />
+		<link rel="stylesheet" href="Styles/style.css" />
 		<script type="text/javascript">
 	
 
@@ -15,13 +15,31 @@
 	</head>
 	<body>
 		<div id="mainBody">
-			<h1>Who do I suck versus?</h1>
-			<input type="text" id="nameText" value="fernify" />
-			<button onclick="GetAllData();" id="searchButton">Search</button>
-			<div id="dataDisplay">
-				<h2 id="worstEnemy"></h2>
-				<ul id="matchIdDisplay"></ul>
-			</div>	
+			<div class="heroContainer">
+				<div class="constrain">
+					<div class="section light col-md-12 hero">
+						<h1>Who do I suck versus?</h1>
+						<input type="text" id="nameText" value="fernify" />
+						<button onclick="GetAllData();" id="searchButton">Search</button>
+						
+						<div class="loadingArea">
+							<div class="loadingIcon">
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+				<div class="normalContainer">
+					<div class="constrain">
+						<div class="section dark col-md-12">
+							<div id="dataDisplay">
+								<h2 id="worstEnemy"></h2>
+								<ul id="matchIdDisplay"></ul>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
 		</div>
 		
 	</body>
