@@ -4,18 +4,33 @@ var listOfMatchIds = [];
 var listOfMatches = [];
 var killers = [];
 var globalIndex = 0;
+var victimChampIDs = [];
+
+function GetSplashUrl(champName){
+    var imageName  = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+        return letter.toUpperCase();
+    });
+    imageName = imageName.replace(" ", "");
+    return "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + imageName + "_0.jpg";
+}
+http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/Aatrox.png 
+
+function GetSqProfileUrl(champName){
+    var imageName  = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+        return letter.toUpperCase();
+    });
+    imageName = imageName.replace(" ", "");
+    return "http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/" + imageName + ".png";
+}
 
 function PrintAllData() {
     GetChampion(killers[0].id, function(champ){
         var name = champ.name;
         $("#worstEnemy").text(name + ", " + champ.title);
-        var imageName  = name.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-            return letter.toUpperCase();
-        });
-        imageName = imageName.replace(" ", "");
-        $(".constrain").css("background-image", "url('http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + imageName + "_0.jpg')");
+        $(".constrain").css("background-image", "url('" + GetSplashUrl(name) + "')");
     });
     DisplayKillerChampions(0);
+    DisplayVictimChampions(0);
 }
 
 function DisplayKillerChampions(index){
@@ -36,6 +51,21 @@ function DisplayKillerChampions(index){
                 });
             }
         });					
+    } else{
+        $("#matchIdDisplay").fadeIn();
+    }
+}
+
+function DisplayVictimChampions(index){
+    if(index < victimChampIDs.length){
+        var victimID = victimChampIDs[index];
+        GetChampion(victimID, function(victim){
+            $("#victimChampionContainer").append("<div class=\"champ\"><img src=\"" + GetSqProfileUrl(victim.name) + "\" /></div>");
+            var newIndex = index + 1;
+            DisplayVictimChampions(newIndex);
+        });
+    }else{
+        $("#victimChampionContainer").fadeIn();
     }
 }
 
@@ -109,11 +139,11 @@ function FormatMatchData(match){
         }
     }
     $.each(champIDsDiedTo, function(index, champDeath){
-        var exists = false;
+        var kExists = false;
         for(var i = 0; i < killers.length; i++){
             var thisKiller = killers[i];
             if(thisKiller.id == champDeath.kID){
-                exists = true;
+                kExists = true;
                 for(var v = 0; v < thisKiller.vicIDs.length; v++){
                     if(thisKiller.vicIDs[v].vID == champDeath.vID){
                         thisKiller.vicIDs[v].count = thisKiller.vicIDs[v].count + 1;
@@ -121,11 +151,15 @@ function FormatMatchData(match){
                 }
             }
         }
-        if(!exists){
+        if(!kExists){
             var newItem = {};
             newItem.id = champDeath.kID;
             newItem.vicIDs = [{vID:champDeath.vID, count:1}];
             killers.push(newItem);
+        }
+        
+        if(victimChampIDs.indexOf(champDeath.vID) == -1){
+            victimChampIDs.push(champDeath.vID);
         }
     });
     killers = killers.sort(function(a,b){
