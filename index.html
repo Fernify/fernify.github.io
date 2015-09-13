@@ -20,20 +20,23 @@
             <div class="normalContainer">
                 <div class="constrain">
                     <div class="section light col-md-12 hero">
-                        <h1>Who do I suck versus?</h1>
-                        <input type="text" id="nameText" value="fernify" />
-                        <button onclick="GetAllData();" id="searchButton">Search</button>
+                        <div class="formEntry">
+                            <h1>Who do I suck versus?</h1>
+                            <p>A League of Legends match analysis tool for finding which champions you could improve against</p>
+                            <input type="text" id="nameText" value="fernify" />
+                            <button onclick="GetAllData();" id="searchButton">Search</button>
+                        </div>
                         <div class="loadingArea">
                             <h2 id="loadingText"></h2>
                             <div class="loadingIcon" style="display: none;">
                             </div>
                         </div>
                         <div id="dataDisplay">
-                            <div id="victimChampionContainer">
-
-                            </div>
                             <h2 id="worstEnemy"></h2>
-                            <ul id="matchIdDisplay"></ul>
+                            <div class="dataContainer">
+                                <div id="victimChampionContainer"></div>
+                                <ul id="matchIdDisplay"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>

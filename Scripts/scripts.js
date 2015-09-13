@@ -36,7 +36,7 @@ function PrintAllData() {
     });
 
     var worstEnemy = LookupChampData(killers[0].id);
-    $("#worstEnemy").text(worstEnemy.cName + ", " + worstEnemy.cTitle);
+    $("#worstEnemy").html(worstEnemy.cName + ",<br/>" + worstEnemy.cTitle);
     $(".heroContainer").css("background-image", "url('" + GetSplashUrl(worstEnemy.cName) + "')");
 
     $.each(killers, function (index, killer) {
@@ -94,7 +94,7 @@ function UpdateLoadingText(string) {
 function GetAllData() {
     $(".loadingIcon").fadeIn();
     UpdateLoadingText("Finding your summoner profile");
-    GetSummonerId($("#nameText").val(), function (summoner) {
+    GetSummonerId($("#nameText").val().toLowerCase(), function (summoner) {
         UpdateLoadingText("Found you " + summoner.name + ". getting your matches");
     	summonerObj = summoner;
     	GetSummonerMatches(summoner.id, function (matches) {

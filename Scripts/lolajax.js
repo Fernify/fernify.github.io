@@ -13,7 +13,7 @@ function GetSummonerMatches(summonerId, callback) {
     var matchIds = [];
     $.ajax({
         type: "GET",
-        url: "https://euw.api.pvp.net/api/lol/euw/v2.2/matchlist/by-summoner/" + summonerId + "?api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
+        url: "https://euw.api.pvp.net/api/lol/euw/v2.2/matchlist/by-summoner/" + summonerId + "?beginIndex=0&endIndex=25&api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
         dataType: "json",
         crossDomain: true,
         success: function (result) {
