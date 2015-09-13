@@ -7,7 +7,7 @@ var globalIndex = 0;
 var victimChampIDs = [];
 var uniqueChamps = [];
 
-function GetSplashUrl(champName){
+function GetSplashUrl(champName) {
     var imageName  = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
         return letter.toUpperCase();
     });
@@ -17,7 +17,6 @@ function GetSplashUrl(champName){
     }
     return "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + imageName + "_0.jpg";
 }
-http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/Aatrox.png 
 
 function GetSqProfileUrl(champName){
     var imageName  = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
@@ -28,6 +27,8 @@ function GetSqProfileUrl(champName){
 }
 
 function PrintAllData() {
+    UpdateLoadingText("");
+    $(".loadingIcon").fadeOut();
     killers = killers.sort(function (a, b) {
         var aTot = GetKillCount(a.vicIDs);
         var bTot = GetKillCount(b.vicIDs);
@@ -36,7 +37,7 @@ function PrintAllData() {
 
     var worstEnemy = LookupChampData(killers[0].id);
     $("#worstEnemy").text(worstEnemy.cName + ", " + worstEnemy.cTitle);
-    $(".constrain").css("background-image", "url('" + GetSplashUrl(worstEnemy.cName) + "')");
+    $(".heroContainer").css("background-image", "url('" + GetSplashUrl(worstEnemy.cName) + "')");
 
     $.each(killers, function (index, killer) {
         var killerChamp = LookupChampData(killer.id);
@@ -69,6 +70,7 @@ function GetAllChampionData(index) {
             console.log("Got " + champData.name + ", " + champData.title);
             uniqueChamps[index].cName = champData.name;
             uniqueChamps[index].cTitle = champData.title;
+            uniqueChamps[index].cKey = champData.key;
             var newIndex = index + 1;
             GetAllChampionData(newIndex);
         });
@@ -85,10 +87,18 @@ function GetKillCount(vicObjs){
     return total;
 }
 
-function GetAllData(){
-    GetSummonerId($("#nameText").val(), function(summoner){
+function UpdateLoadingText(string) {
+    $("#loadingText").text(string);
+}
+
+function GetAllData() {
+    $(".loadingIcon").fadeIn();
+    UpdateLoadingText("Finding your summoner profile");
+    GetSummonerId($("#nameText").val(), function (summoner) {
+        UpdateLoadingText("Found you " + summoner.name + ". getting your matches");
     	summonerObj = summoner;
-    	GetSummonerMatches(summoner.id, function(matches){
+    	GetSummonerMatches(summoner.id, function (matches) {
+    	    UpdateLoadingText("Looking through your last " + matches.length + " matches");
     		listOfMatchIds = matches;
             GetMatchDataFromMatchIds(0);
     	});
@@ -98,9 +108,9 @@ function GetAllData(){
 function GetMatchDataFromMatchIds(index){
     if (index < listOfMatchIds.length) {
         setTimeout(function () {
-            console.log("Getting Match " + index + " of " + listOfMatchIds.length);
             var matchID = listOfMatchIds[index];
             var newIndex = index + 1;
+            UpdateLoadingText("Analysing Match " + newIndex + " of " + listOfMatchIds.length);
             GetMatchData(matchID, function (matchData) {
                 listOfMatches.push(matchData);
                 FormatMatchData(matchData);
@@ -108,8 +118,8 @@ function GetMatchDataFromMatchIds(index){
             });
         }, 2800);
     } else {
-        //GetAllChampionData(0);
-        PrintAllData();
+        GetAllChampionData(0);
+        //PrintAllData();
     }
 }
 
@@ -148,24 +158,15 @@ function FormatMatchData(match){
 
                         var uniqueChampList = $.grep(uniqueChamps, function (x) { return (x.cID == champDeath.kID || x.cID == champDeath.vID) });
                         if (uniqueChampList.length == 0) {
-                            GetChampion(champDeath.kID, function (kChamp) {
-                                GetChampion(champDeath.vID, function (vChamp) {
-                                    uniqueChamps.push({ cID: kChamp.id, cName: kChamp.name, cTitle: kChamp.title });
-                                    uniqueChamps.push({ cID: vChamp.id, cName: vChamp.name, cTitle: vChamp.title });
-                                });
-                            });
+                            uniqueChamps.push({ cID: champDeath.kID, cName: "", cTitle: "", cKey: "" });
+                            uniqueChamps.push({ cID: champDeath.vID, cName: "", cTitle: "", cKey: "" });
                         } else if (uniqueChampList.length == 1) {
                             if (uniqueChampList[0].cID == champDeath.kID) {
-                                GetChampion(champDeath.vID, function (vChamp) {
-                                    uniqueChamps.push({ cID: vChamp.id, cName: vChamp.name, cTitle: vChamp.title });
-                                });
+                                uniqueChamps.push({ cID: champDeath.vID, cName: "", cTitle: "", cKey: "" });
                             } else {
-                                GetChampion(champDeath.kID, function (kChamp) {
-                                    uniqueChamps.push({ cID: kChamp.id, cName: kChamp.name, cTitle: kChamp.title });
-                                });
+                                uniqueChamps.push({ cID: champDeath.kID, cName: "", cTitle: "", cKey: "" });
                             }
                         }
-
 
                         if (victimChampIDs.indexOf(champDeath.vID) == -1) {
                             victimChampIDs.push(champDeath.vID);

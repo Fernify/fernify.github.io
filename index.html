@@ -16,30 +16,26 @@
 	</head>
 	<body>
 		<div id="mainBody">
-			<div class="heroContainer">
-				<div class="constrain">
-					<div class="section light col-md-12 hero">
-						<h1>Who do I suck versus?</h1>
-						<input type="text" id="nameText" value="fernify" />
-						<button onclick="GetAllData();" id="searchButton">Search</button>
-						<div class="loadingArea">
-							<div class="aloadingIcon">
-							</div>
-						</div>
-					</div>
-				</div>
-            </div>
+			<div class="heroContainer"></div>
             <div class="normalContainer">
                 <div class="constrain">
-                    <div class="section dark col-md-12">
+                    <div class="section light col-md-12 hero">
+                        <h1>Who do I suck versus?</h1>
+                        <input type="text" id="nameText" value="fernify" />
+                        <button onclick="GetAllData();" id="searchButton">Search</button>
+                        <div class="loadingArea">
+                            <h2 id="loadingText"></h2>
+                            <div class="loadingIcon" style="display: none;">
+                            </div>
+                        </div>
                         <div id="dataDisplay">
-                            <div id="victimChampionContainer" style="display:none">
+                            <div id="victimChampionContainer">
 
                             </div>
                             <h2 id="worstEnemy"></h2>
                             <ul id="matchIdDisplay"></ul>
                         </div>
-                    </div>	
+                    </div>
                 </div>
             </div>
         </div>
