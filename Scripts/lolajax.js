@@ -42,11 +42,23 @@ function GetMatchData(matchId, callback) {
         url: "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + matchId + "?includeTimeline=true&api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
         dataType: "json",
         crossDomain: true,
-        success: function (result) {
-            callback(result);
-        },
-        error : function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR.status);
+        statusCode: {
+            429: function (jqxhr, status, errorThrown) {
+                console.log("ISSUE");
+                console.log(jqxhr);
+                console.log(status);
+                console.log(errorThrown);
+            },
+            200: function (result) {
+                callback(result);
+            }
         }
     });
 }
+
+//success: function (result) {
+//    callback(result);
+//},
+//error : function (jqXHR, textStatus, errorThrown) {
+//    console.log(jqXHR.status);
+//}
