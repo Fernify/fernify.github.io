@@ -7,6 +7,15 @@ var globalIndex = 0;
 var victimChampIDs = [];
 var uniqueChamps = [];
 
+$(function(){
+   $(".formEntry input").keypress(function(event){
+      var keycode = (event.keyCode ? event.keyCode : event.which);
+	  if(keycode == '13'){
+        $("#searchButton").click(); 
+      }
+   });
+});
+
 function GetSplashUrl(champName) {
     var imageName  = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
         return letter.toUpperCase();
