@@ -1,0 +1,121 @@
+h1,h2,h3,p,div {
+    padding: 0;
+    margin: 0;
+}
+
+.heroContainer{
+	background-color:#34495e;
+    display: block;
+    min-width: 100%;
+    min-height: 100vh;
+    position: fixed;
+    background-size: cover;
+}
+
+.formEntry{
+    width: 500px;
+    margin: 0 auto;
+    h1{
+        text-align: center;
+        color: #fff;
+        position: relative;
+        font-size: 45px;
+    }
+
+    p{
+        text-align: center;
+        color: #fff;
+        position: relative;
+        font-size: 16px;
+        padding: 20px 50px;
+    }
+
+    input{
+        width:90%;
+        margin-left:5%;
+        padding:10px;
+    }
+
+    button{
+        margin-left:-80px;
+        border:0;
+        background-color:#34495e;
+        padding:5px 10px;
+        color: #fff;
+        font-weight: bold;
+    }   
+}
+
+
+.constrain{
+	width:900px;
+	margin:0 auto;
+	overflow:hidden;
+}
+
+#dataDisplay{
+    margin-top: 200px;
+}
+
+#worstEnemy{
+    margin-bottom: 25px;
+    color: #fff;
+    font-size: 60px;
+    padding-left: 50px;
+}
+
+.dataContainer{
+    background-color: #fff;
+}
+
+.section{
+	padding:30px 0 0;
+	position:relative;
+}
+
+#victimChampionContainer {
+    display: flex;
+    justify-content: space-around;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.loadingIcon{
+	height:50px;
+	width:50px;
+	border-radius:50%;
+	border: 5px solid #fff;
+	border-right:none;
+	border-bottom:none;
+	-moz-animation: spin .5s infinite linear;
+    -o-animation: spin .5s infinite linear;
+    -webkit-animation: spin .5s infinite linear;
+	animation: spin .5s infinite linear;
+	margin:0 auto;
+}
+
+.loadingArea{
+    margin-top: 40px;
+}
+
+#loadingText{
+    text-align: center;
+    color: #fff;
+    margin-bottom: 35px;
+}
+
+@-moz-keyframes spin {
+    0% {-moz-transform: rotate(0deg);}
+    100% {-moz-transform: rotate(360deg);};
+}
+
+@-webkit-keyframes spin {
+    0% {-webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(360deg);};
+}
+
+@keyframes spin {
+    0% {-webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(360deg);};
+}

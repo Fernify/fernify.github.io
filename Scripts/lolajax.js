@@ -3,9 +3,13 @@ function GetSummonerId(name, callback) {
         type: "GET",
         url: "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/" + name + "?api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
         dataType: "json",
+        crossDomain: true,
         success: function (result) {
             callback(result[name]);
-        }				
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            callback(null); 
+        } 				
     });
 }
 
@@ -30,6 +34,7 @@ function GetChampion(championId, callback) {
         type: "GET",
         url: "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion/" + championId + "?api_key=cf2f4773-debd-499b-b4c8-daf1634f7fa1",
         dataType: "json",
+        crossDomain: true,
         success: function (result) {
             callback(result);
         }

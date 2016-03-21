@@ -7,17 +7,17 @@ var globalIndex = 0;
 var victimChampIDs = [];
 var uniqueChamps = [];
 
-$(function(){
-   $(".formEntry input").keypress(function(event){
-      var keycode = (event.keyCode ? event.keyCode : event.which);
-	  if(keycode == '13'){
-        $("#searchButton").click(); 
-      }
-   });
+$(function() {
+    $(".formEntry input").keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#searchButton").click();
+        }
+    });
 });
 
 function GetSplashUrl(champName) {
-    var imageName  = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    var imageName = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
         return letter.toUpperCase();
     });
     imageName = imageName.replace(" ", "");
@@ -27,8 +27,8 @@ function GetSplashUrl(champName) {
     return "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + imageName + "_0.jpg";
 }
 
-function GetSqProfileUrl(champName){
-    var imageName  = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+function GetSqProfileUrl(champName) {
+    var imageName = champName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
         return letter.toUpperCase();
     });
     imageName = imageName.replace(" ", "").replace("'", "");
@@ -38,7 +38,7 @@ function GetSqProfileUrl(champName){
 function PrintAllData() {
     UpdateLoadingText("");
     $(".loadingIcon").fadeOut();
-    killers = killers.sort(function (a, b) {
+    killers = killers.sort(function(a, b) {
         var aTot = GetKillCount(a.vicIDs);
         var bTot = GetKillCount(b.vicIDs);
         return (bTot > aTot) ? 1 : ((bTot < aTot) ? -1 : 0);
@@ -48,34 +48,33 @@ function PrintAllData() {
     $("#worstEnemy").html(worstEnemy.cName + ",<br/>" + worstEnemy.cTitle);
     $(".heroContainer").css("background-image", "url('" + GetSplashUrl(worstEnemy.cName) + "')");
 
-    $.each(killers, function (index, killer) {
+    $.each(killers, function(index, killer) {
         var killerChamp = LookupChampData(killer.id);
         var text = "";
-        $.each(killer.vicIDs, function (index, victim) {
+        $.each(killer.vicIDs, function(index, victim) {
             var champ = LookupChampData(victim.vID);
             text += ("<li>killed " + champ.cName + " " + victim.count + " times</li>");
         });
         $("#matchIdDisplay").append("<li>" + killerChamp.cName + "<ul>" + text + "</ul></li>");
     });
-    $.each(victimChampIDs, function (index, champID) {
+    $.each(victimChampIDs, function(index, champID) {
         var victim = LookupChampData(champID);
         $("#victimChampionContainer").append("<div class=\"champ\"><img src=\"" + GetSqProfileUrl(victim.cName) + "\" /></div>");
     });
 }
 
 function LookupChampData(id) {
-    var champs = $.grep(uniqueChamps, function (x) { return x.cID == id; });
+    var champs = $.grep(uniqueChamps, function(x) { return x.cID == id; });
     if (champs.length > 0) {
         return champs[0];
     } else {
         return { cID: id, cName: id, cTitle: id };
     }
-    return [0];
 }
 
 function GetAllChampionData(index) {
     if (index < uniqueChamps.length) {
-        GetChampion(uniqueChamps[index].cID, function (champData) {
+        GetChampion(uniqueChamps[index].cID, function(champData) {
             console.log("Got " + champData.name + ", " + champData.title);
             uniqueChamps[index].cName = champData.name;
             uniqueChamps[index].cTitle = champData.title;
@@ -88,9 +87,9 @@ function GetAllChampionData(index) {
     }
 }
 
-function GetKillCount(vicObjs){
+function GetKillCount(vicObjs) {
     var total = 0;
-    $.each(vicObjs, function(index, vicObj){
+    $.each(vicObjs, function(index, vicObj) {
         total += vicObj.count;
     });
     return total;
@@ -103,24 +102,30 @@ function UpdateLoadingText(string) {
 function GetAllData() {
     $(".loadingIcon").fadeIn();
     UpdateLoadingText("Finding your summoner profile");
-    GetSummonerId($("#nameText").val().toLowerCase(), function (summoner) {
-        UpdateLoadingText("Found you " + summoner.name + ". getting your matches");
-    	summonerObj = summoner;
-    	GetSummonerMatches(summoner.id, function (matches) {
-    	    UpdateLoadingText("Looking through your last " + matches.length + " matches");
-    		listOfMatchIds = matches;
-            GetMatchDataFromMatchIds(0);
-    	});
+    GetSummonerId($("#nameText").val().toLowerCase(), function(summoner) {
+        if(summoner == null){
+            UpdateLoadingText("Uhhh, you sure that's right? Try again mate");
+            $(".loadingIcon").fadeOut();
+        }else{
+            UpdateLoadingText("Found you " + summoner.name + ". getting your matches");
+            summonerObj = summoner;
+            GetSummonerMatches(summoner.id, function(matches) {
+                UpdateLoadingText("Looking through your last " + matches.length + " matches");
+                listOfMatchIds = matches;
+                GetMatchDataFromMatchIds(0);
+            });
+        }
+
     });
 }
 
-function GetMatchDataFromMatchIds(index){
+function GetMatchDataFromMatchIds(index) {
     if (index < listOfMatchIds.length) {
-        setTimeout(function () {
+        setTimeout(function() {
             var matchID = listOfMatchIds[index];
             var newIndex = index + 1;
             UpdateLoadingText("Analysing Match " + newIndex + " of " + listOfMatchIds.length);
-            GetMatchData(matchID, function (matchData) {
+            GetMatchData(matchID, function(matchData) {
                 listOfMatches.push(matchData);
                 FormatMatchData(matchData);
                 GetMatchDataFromMatchIds(newIndex);
@@ -132,23 +137,23 @@ function GetMatchDataFromMatchIds(index){
     }
 }
 
-function FormatMatchData(match){
+function FormatMatchData(match) {
     var ppIDs = match.participantIdentities;
     var ppChamps = match.participants;
-    var playerPPID = ($.grep(ppIDs, function (x) { return (x.player.summonerId == summonerObj.id); }))[0].participantId;
-    var playerChampID = ppChamps[playerPPID-1].championId;
+    var playerPPID = ($.grep(ppIDs, function(x) { return (x.player.summonerId == summonerObj.id); }))[0].participantId;
+    var playerChampID = ppChamps[playerPPID - 1].championId;
     var frames = match.timeline.frames;
-    for(var f = 0; f<frames.length; f++){
+    for (var f = 0; f < frames.length; f++) {
         var currentFrame = frames[f];
-        if(currentFrame.events != undefined){
+        if (currentFrame.events != undefined) {
             var events = currentFrame.events;
-            var victimKillEvents = $.grep(events, function(e){ return (e.eventType == "CHAMPION_KILL" && e.victimId == playerPPID);});
-            if(victimKillEvents.length > 0){
-                $.each(victimKillEvents, function (index, killEvent) {
+            var victimKillEvents = $.grep(events, function(e) { return (e.eventType == "CHAMPION_KILL" && e.victimId == playerPPID); });
+            if (victimKillEvents.length > 0) {
+                $.each(victimKillEvents, function(index, killEvent) {
                     if (killEvent.killerId > 0) {
                         champIDsDiedTo.push({ kID: ppChamps[killEvent.killerId - 1].championId, vID: playerChampID });
                         var champDeath = { kID: ppChamps[killEvent.killerId - 1].championId, vID: playerChampID };
-                        var matchingKillerObjs = $.grep(killers, function (x) { return x.id == champDeath.kID });
+                        var matchingKillerObjs = $.grep(killers, function(x) { return x.id == champDeath.kID });
                         if (matchingKillerObjs.length == 0) {
                             var newItem = {};
                             newItem.id = champDeath.kID;
@@ -156,7 +161,7 @@ function FormatMatchData(match){
                             killers.push(newItem);
                         } else {
                             var matchingKillerObj = matchingKillerObjs[0];
-                            var matchVicObjs = $.grep(matchingKillerObj.vicIDs, function (y) { return y.vID == champDeath.vID });
+                            var matchVicObjs = $.grep(matchingKillerObj.vicIDs, function(y) { return y.vID == champDeath.vID });
                             if (matchVicObjs.length == 0) {
                                 matchingKillerObj.vicIDs.push({ vID: champDeath.vID, count: 1 });
                             } else {
@@ -165,7 +170,7 @@ function FormatMatchData(match){
                             }
                         }
 
-                        var uniqueChampList = $.grep(uniqueChamps, function (x) { return (x.cID == champDeath.kID || x.cID == champDeath.vID) });
+                        var uniqueChampList = $.grep(uniqueChamps, function(x) { return (x.cID == champDeath.kID || x.cID == champDeath.vID) });
                         if (uniqueChampList.length == 0) {
                             uniqueChamps.push({ cID: champDeath.kID, cName: "", cTitle: "", cKey: "" });
                             uniqueChamps.push({ cID: champDeath.vID, cName: "", cTitle: "", cKey: "" });
