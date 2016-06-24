@@ -200,7 +200,7 @@ h2 {
   color: #fff;
 }
 .section#landing {
-  background: url(source/makeup.jpg) no-repeat center center;
+  background: url(source/brush.jpg) no-repeat center center;
   background-size: cover;
   background-attachment: fixed;
 }
@@ -224,7 +224,7 @@ h2 {
   width: 100%;
 }
 .section#gallery {
-  background: url("images/bg3.jpg") repeat;
+  background: url("images/bg10.jpg") repeat;
 }
 .section#contact {
   background: url(source/makeup.jpg) no-repeat center center;
@@ -232,7 +232,7 @@ h2 {
   background-attachment: fixed;
 }
 .section#about {
-  background: url("images/bg6.jpg") repeat;
+  background: url("images/bg9.jpg") repeat;
 }
 .textPanel {
   width: 80%;
@@ -244,6 +244,10 @@ h2 {
 .textPanel p {
   font-size: 2em;
   margin-bottom: 10px;
+}
+#profileImages {
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 #profileImages .portraitImage {
   width: 50%;
