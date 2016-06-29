@@ -179,7 +179,7 @@ h2 {
   display: block;
   line-height: 45px;
   height: 50px;
-  padding: 0 10px;
+  padding: 0 6px;
   text-decoration: none;
   font-size: 1.6em;
   font-weight: bold;
@@ -199,10 +199,14 @@ h2 {
 .section .sectionContent > h2 {
   color: #fff;
 }
+.section .fixedImage {
+  position: fixed;
+  right: 0;
+}
 .section#landing {
-  background: url(source/brush.jpg) no-repeat center center;
-  background-size: cover;
+  background: url(source/brush.jpg) no-repeat 70% center;
   background-attachment: fixed;
+  background-size: cover;
 }
 .section#landing .sectionContent {
   position: absolute;
@@ -223,13 +227,13 @@ h2 {
 .section#landing .imageContainer img {
   width: 100%;
 }
+.section#contact {
+  background: url(source/makeup.jpg) no-repeat left center;
+  background-attachment: fixed;
+  background-size: cover;
+}
 .section#gallery {
   background: url("images/bg10.jpg") repeat;
-}
-.section#contact {
-  background: url(source/makeup.jpg) no-repeat center center;
-  background-size: cover;
-  background-attachment: fixed;
 }
 .section#about {
   background: url("images/bg9.jpg") repeat;
@@ -274,6 +278,9 @@ h2 {
   padding: 5%;
 }
 @media only screen and (min-width: 650px) {
+  .section#landing {
+    background: url(source/brush.jpg) no-repeat center center;
+  }
   .section#landing .imageContainer {
     width: 600px;
     max-width: none;
@@ -287,6 +294,7 @@ h2 {
   }
   #navigation li a {
     font-size: 2em;
+    padding: 0 10px;
   }
   #navigation li a:hover {
     background-color: #000;
