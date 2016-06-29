@@ -206,7 +206,6 @@ h2 {
 .section#landing {
   background: url(source/brush.jpg) no-repeat 70% center;
   background-attachment: fixed;
-  background-size: cover;
 }
 .section#landing .sectionContent {
   position: absolute;
@@ -278,9 +277,6 @@ h2 {
   padding: 5%;
 }
 @media only screen and (min-width: 650px) {
-  .section#landing {
-    background: url(source/brush.jpg) no-repeat center center;
-  }
   .section#landing .imageContainer {
     width: 600px;
     max-width: none;

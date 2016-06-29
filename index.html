@@ -99,5 +99,27 @@
                 </div>
             </div>
         </div>
+        <script>
+            var scaleImage = false;
+            function EvaluateSize(){
+                var width = window.innerWidth;
+                var widthThresh = width * .75;
+                var height = window.innerHeight;
+                
+                if(height > widthThresh){
+                    $("#landing").css("background-size", (height/.75) +"px " + height + "px");
+                }
+                else{
+                    $("#landing").css("background-size", width +"px " + (width*.75) + "px");
+                }
+            }
+            $(function(){
+                EvaluateSize();
+                $(window).on("resize", function(){
+                    EvaluateSize();
+                });
+            });    
+
+        </script>
     </body>
 </html>
