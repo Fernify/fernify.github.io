@@ -204,8 +204,8 @@ h2 {
   right: 0;
 }
 .section#landing {
-  background: url(source/brush.jpg) no-repeat 70% center;
-  background-attachment: fixed;
+  background-image: url(source/brush.jpg);
+  background-position: right center;
 }
 .section#landing .sectionContent {
   position: absolute;
@@ -227,9 +227,8 @@ h2 {
   width: 100%;
 }
 .section#contact {
-  background: url(source/makeup.jpg) no-repeat left center;
-  background-attachment: fixed;
-  background-size: cover;
+  background-position: right center;
+  background-image: url(source/makeup4.jpg);
 }
 .section#gallery {
   background: url("images/bg10.jpg") repeat;
@@ -277,9 +276,15 @@ h2 {
   padding: 5%;
 }
 @media only screen and (min-width: 650px) {
+  .section#landing {
+    background-attachment: fixed;
+  }
   .section#landing .imageContainer {
     width: 600px;
     max-width: none;
+  }
+  .section#contact {
+    background-attachment: fixed;
   }
   .textPanel {
     width: 550px;

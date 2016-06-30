@@ -11,9 +11,20 @@
         <script type="text/javascript" src="scripts/script.js"></script>
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
         <meta charset="UTF-8">
-        <meta name="description" content="Kiran Sidhu, MUA">
+        <meta name="description" content="Hi, I'm Kiran Sidhu a Cardiff based MUA with a passion for make up, available for events and makeovers">
         <meta name="keywords" content="Kiran,Sidhu,Makeup,Make up,MUA,Cardiff,South Wales,South,Wales">
-        <meta name="author" content="Daniel Fernandez">
+        <meta name="author" content="Kiran Sidhu">
+        <meta property="og:url" content="http://ponchosforservers.com" />
+        <meta property="og:type" content="article" />
+        <meta property="og:description" content="Hi, I'm Kiran Sidhu a Cardiff based MUA with a passion for make up, available for events and makeovers" />
+        <meta property="og:image" content="http://ponchosforservers.com/source/preview.jpg" />
+        <meta property="og:site_name" content="Kiran Sidhu makeup" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@_kiransidhu_" />
+        <meta name="twitter:creator" content="@fernify" />
+        <meta name="twitter:title" content="Kiran Sidhu makeup" />
+        <meta name="twitter:description" content="Hi, I'm Kiran Sidhu a Cardiff based MUA with a passion for make up, available for events and makeovers" />
+        <meta name="twitter:image" content="http://ponchosforservers.com/source/preview.jpg" />
     </head>
     <body>
         <div id="main">
@@ -105,12 +116,15 @@
                 var width = window.innerWidth;
                 var widthThresh = width * .75;
                 var height = window.innerHeight;
-                
-                if(height > widthThresh){
-                    $("#landing").css("background-size", (height/.75) +"px " + height + "px");
-                }
-                else{
-                    $("#landing").css("background-size", width +"px " + (width*.75) + "px");
+                if(width > 649){
+                    if(height > widthThresh){
+                        $("#landing, #contact").css("background-size", (height/.75) +"px " + height + "px");
+                    }
+                    else{
+                        $("#landing, #contact").css("background-size", width +"px " + (width*.75) + "px");
+                    }
+                }else{
+                    $("#landing, #contact").css("background-size", "auto 100%");
                 }
             }
             $(function(){
