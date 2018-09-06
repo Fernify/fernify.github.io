@@ -1,121 +1,231 @@
-h1,h2,h3,p,div {
-    padding: 0;
-    margin: 0;
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 62.5%;
 }
 
-.heroContainer{
-	background-color:#34495e;
-    display: block;
-    min-width: 100%;
-    min-height: 100vh;
-    position: fixed;
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+h1 {
+  font-family: 'Coustard', sans-serif;
+  font-weight: normal;
+  font-size: 8vh;
+  line-height: 10vh;
+  text-align: center;
+}
+
+h2, h2 span {
+  font-size: 60px;
+  font-family: 'Source Sans Pro', sans-serif;
+  line-height: 40vh;
+}
+
+.page {
+  height: 100vh;
+}
+
+.page .half .content {
+  height: 50vh;
+  box-sizing: border-box;
+  padding: 5vh 20px;
+}
+
+.page .top, .page .bottom, .page .top .content, .page .bottom .content {
+  background-color: #fff;
+}
+
+#splash .top .content {
+  background: #D01010;
+  background: -moz-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #d01010), color-stop(100%, #eb6f1d));
+  background: -webkit-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: -o-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: -ms-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: linear-gradient(to right, #d01010 0%, #eb6f1d 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d01010', endColorstr='#eb6f1d', GradientType=1 );
+  color: #fff;
+  padding: 2.5vh 20px 7.5vh;
+  border-radius: 0 0 40% 0;
+}
+
+#splash .bottom {
+  background: #D01010;
+  background: -moz-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #d01010), color-stop(100%, #eb6f1d));
+  background: -webkit-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: -o-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: -ms-linear-gradient(left, #d01010 0%, #eb6f1d 100%);
+  background: linear-gradient(to right, #d01010 0%, #eb6f1d 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d01010', endColorstr='#eb6f1d', GradientType=1 );
+}
+
+#splash .bottom .content {
+  color: #333;
+  padding: 15.5vh 20px 2.5vh;
+  border-radius: 40% 0 0 0;
+}
+
+#dev .top {
+  background: #019163;
+  background: -moz-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #019163), color-stop(100%, #17de9f));
+  background: -webkit-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: -o-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: -ms-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: linear-gradient(to right, #019163 0%, #17de9f 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#019163', endColorstr='#17de9f', GradientType=1 );
+  color: #fff;
+}
+
+#dev .top .content {
+  border-radius: 0 0 40% 0;
+}
+
+#dev .bottom .content {
+  background: #019163;
+  background: -moz-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #019163), color-stop(100%, #17de9f));
+  background: -webkit-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: -o-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: -ms-linear-gradient(left, #019163 0%, #17de9f 100%);
+  background: linear-gradient(to right, #019163 0%, #17de9f 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#019163', endColorstr='#17de9f', GradientType=1 );
+  color: #333;
+  border-radius: 40% 0 0 0;
+}
+
+#portrait {
+  background: url(../Images/me.jpg) no-repeat center top transparent;
+  background-size: 140%;
+  width: 72%;
+  max-width: 360px;
+  display: block;
+  height: 40vh;
+  position: absolute;
+  left: 0;
+  top: 25vh;
+  box-shadow: 2px 2px 12px #333;
+  right: 0;
+  margin: auto;
+}
+
+.oneLiners {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.oneLiners .oneLiner {
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.oneLiners span {
+  padding-left: 6vh;
+}
+
+.oneLiners b, .oneLiners span, .oneLiners a {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 3vh;
+  color: #666;
+  display: block;
+  line-height: 4vh;
+}
+
+.oneLiners .github {
+  background: url("../Images/github.svg") no-repeat transparent left center;
+  background-size: 4vh 4vh;
+}
+
+.oneLiners .code {
+  background: url("../Images/brackets.svg") no-repeat transparent left center;
+  background-size: 4vh 4vh;
+}
+
+.oneLiners .coffee {
+  background: url("../Images/coffee.svg") no-repeat transparent left center;
+  background-size: 4vh 4vh;
+}
+
+.oneLiners .work {
+  background: url("../Images/linkedin.svg") no-repeat transparent left center;
+  background-size: 4vh 4vh;
+}
+
+.oneLiners .design {
+  background: url("../Images/design.svg") no-repeat transparent left center;
+  background-size: 4vh 4vh;
+}
+
+@media screen and (min-width: 721px) {
+  h1 {
+    font-size: 10vh;
+    line-height: 12vh;
+    text-align: left;
+  }
+  #portrait {
     background-size: cover;
+    width: 30%;
+    height: 90vh;
+    left: 2.5%;
+    top: 5vh;
+    margin: 0;
+    max-width: none;
+  }
+  #splash .top .content {
+    border-radius: 0 0 50% 0;
+    padding: 13vh 20px 13vh 35%;
+  }
+  #splash .bottom .content {
+    border-radius: 50% 0 0 0;
+    padding: 5vh 20px 5vh 35%;
+  }
+  .oneLiners {
+    width: auto;
+    max-width: none;
+    margin: auto;
+  }
+  .oneLiners .oneLiner {
+    height: 10vh;
+  }
 }
 
-.formEntry h1{
-    text-align: center;
-    color: #fff;
-    position: relative;
-    font-size: 45px;
+@media screen and (min-width: 991px) {
+  h1 {
+    font-size: 12vh;
+  }
+  .page .top .content {
+    border-radius: 0 0 400px 0;
+  }
+  .page .bottom .content {
+    border-radius: 400px 0 0 0;
+  }
 }
 
-.formEntry p{
-    text-align: center;
-    color: #fff;
-    position: relative;
-    font-size: 16px;
-    padding: 20px 50px;
+@media screen and (min-width: 1201px) {
+  h1 {
+    font-size: 14vh;
+    line-height: 14vh;
+  }
+  #splash .top .content {
+    padding: 11vh 20px 11vh 35%;
+  }
 }
-
-.formEntry input{
-	width:90%;
-	margin-left:5%;
-	padding:10px;
-}
-
-.formEntry button{
-	margin-left:-80px;
-	border:0;
-	background-color:#34495e;
-	padding:5px 10px;
-    color: #fff;
-    font-weight: bold;
-}
-
-.constrain{
-	width:600px;
-	margin:0 auto;
-	overflow:hidden;
-}
-
-#dataDisplay{
-    margin-top: 200px;
-}
-
-#worstEnemy{
-    margin-bottom: 25px;
-    color: #fff;
-    font-size: 45px;
-}
-
-.dataContainer{
-    background-color: #fff;
-}
-
-.section{
-	padding:30px 0 0;
-	position:relative;
-}
-
-#victimChampionContainer {
-    display: flex;
-    justify-content: space-around;
-    -ms-flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-
-.loadingIcon{
-	height:50px;
-	width:50px;
-	border-radius:50%;
-	border: 5px solid #fff;
-	border-right:none;
-	border-bottom:none;
-	-moz-animation: spin .5s infinite linear;
-    -o-animation: spin .5s infinite linear;
-    -webkit-animation: spin .5s infinite linear;
-	animation: spin .5s infinite linear;
-	margin:0 auto;
-}
-
-.loadingArea{
-    margin-top: 40px;
-}
-
-#loadingText{
-    text-align: center;
-    color: #fff;
-    margin-bottom: 35px;
-}
-
-@-moz-keyframes spin {
-    0% {
-        -moz-transform: rotate(0deg);
-    }
-
-    100% {
-        -moz-transform: rotate(360deg);
-    };
-}
-
-
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg);
-    };
-}
+/*# sourceMappingURL=style.css.map */
